@@ -1,10 +1,12 @@
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
+let canvasSize;
+let elemSize;
 
-window.addEventListener('load', startGame);
+window.addEventListener('load', setCanvasSize);
+window.addEventListener('resize', setCanvasSize);
 
-function startGame() {
-    let canvasSize;
+function setCanvasSize() {    
     if(window.innerHeight > window.innerWidth) {
         canvasSize = window.innerWidth * .75;
     } else {
@@ -13,7 +15,11 @@ function startGame() {
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
 
-    const elemSize = (canvasSize / 10) -1;
+    elemSize = (canvasSize / 10) -1;
+    startGame();
+};
+
+function startGame() {
     context.font = elemSize + 'px Ubuntu';
     context.textAlign = 'start';
 
