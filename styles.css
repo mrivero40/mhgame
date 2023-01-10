@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+}
+  
+body {
+    background-color: #202020;
+    color: #FAFAFA;  
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+  
+.game-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100vh;
+    width: 100vw;
+}
+  
+canvas {
+    border: 4px solid #e86905;
+    border-radius: 8px;
+    background-color: #4D4D4D;
+}
+  
+.btns-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    width: 100%;
+}
+  
+button {
+    background-color: #F5B041;
+    border-radius: 8px;
+    border-color: #ff6600;
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 5px 20px;
+    width: 100px;
+}
+
+button:not(:last-child) {
+    margin-right: 10px;
+}
+  
+.info-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 460px;
+}
+  
+p {
+    display: block;
+    margin: 0;
+    width: 100%;
+}
+  
+@media (max-width: 440px) {
+    button { margin-top: 5px; }
+    #up, #down { margin-left: 100%; margin-right: 100%; }
+}
