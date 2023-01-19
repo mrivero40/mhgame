@@ -8,6 +8,7 @@ let canvasSize;
 let elemSize;
 let flag = true;
 let level = 0;
+let lives = 3;
 
 const playerPosition = {
     x: undefined,
@@ -41,7 +42,7 @@ function startGame() {
     context.font = elemSize + 'px Ubuntu';
     context.textAlign = 'start';
 
-    const map = maps[level];
+    let map = maps[level];
 
     if(!map) {
         finishGame();
@@ -94,8 +95,8 @@ function renderPlayer() {
         const enemyCollitionMatch = enemyCollitionX && enemyCollitionY;
         return enemyCollitionMatch
     });
-    if(enemyCollition) {
-        console.log('bummmm!! a mover el bum bum');
+    if(enemyCollition) {        
+        levelFail();
     }
     context.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
 };
@@ -104,6 +105,21 @@ function levelWins() {
     level++;
     flag = true;
     enemyPosition = [];
+    startGame();
+};
+
+function levelFail() {
+    console.log('bummmm!! a mover el bum bum');
+    lives--;
+    console.log(lives);
+    if(lives <= 0) {
+        lives = 3;
+        level = 0;
+    };
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
+    enemyPosition = [];
+    flag = true;
     startGame();
 };
 
