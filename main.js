@@ -4,6 +4,8 @@ const btnUp = document.getElementById('up');
 const btnDown = document.getElementById('down');
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
+const spanLives = document.getElementById('lives');
+
 let canvasSize;
 let elemSize;
 let flag = true;
@@ -53,6 +55,8 @@ function startGame() {
     const mapRowsCols = mapRows.map(row => row.trim().split(''));
 
     context.fillRect(0,0,canvasSize,canvasSize);
+
+    showLives()
     
     mapRowsCols.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
@@ -99,6 +103,11 @@ function renderPlayer() {
         levelFail();
     }
     context.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+};
+
+function showLives() {
+    //const heartsArray = Array(lives).fill(emojis['HEART']);
+    spanLives.innerText = emojis['HEART'].repeat(lives);
 };
 
 function levelWins() {
