@@ -5,12 +5,16 @@ const btnDown = document.getElementById('down');
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
 const spanLives = document.getElementById('lives');
+const spanTimes = document.getElementById('time');
 
 let canvasSize;
 let elemSize;
 let flag = true;
 let level = 0;
 let lives = 3;
+let timeStart;
+let timePlayer;
+let timeInterval;
 
 const playerPosition = {
     x: undefined,
@@ -49,6 +53,11 @@ function startGame() {
     if(!map) {
         finishGame();
         return;
+    };
+
+    if(!timeStart) {
+        timeStart = Date.now();
+        timeInterval = setInterval(showTime, 100);
     };
 
     const mapRows = map.trim().split('\n');
@@ -105,11 +114,6 @@ function renderPlayer() {
     context.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
 };
 
-function showLives() {
-    //const heartsArray = Array(lives).fill(emojis['HEART']);
-    spanLives.innerText = emojis['HEART'].repeat(lives);
-};
-
 function levelWins() {
     level++;
     flag = true;
@@ -124,6 +128,8 @@ function levelFail() {
     if(lives <= 0) {
         lives = 3;
         level = 0;
+        clearInterval(timeInterval);
+        timeStart = undefined;
     };
     playerPosition.x = undefined;
     playerPosition.y = undefined;
@@ -134,6 +140,16 @@ function levelFail() {
 
 function finishGame() {
     console.log('terminaste el juego, tremendo ganador sos!!');
+    clearInterval(timeInterval);
+};
+
+function showLives() {
+    //const heartsArray = Array(lives).fill(emojis['HEART']);
+    spanLives.innerText = emojis['HEART'].repeat(lives);
+};
+
+function showTime() {
+    spanTimes.innerText = (Date.now() - timeStart) / 1000 + ' seg';
 };
 
 btnUp.addEventListener('click', moveUp);
