@@ -6,6 +6,7 @@ const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
 const spanLives = document.getElementById('lives');
 const spanTimes = document.getElementById('time');
+const spanRecord = document.getElementById('record');
 
 let canvasSize;
 let elemSize;
@@ -15,6 +16,7 @@ let lives = 3;
 let timeStart;
 let timePlayer;
 let timeInterval;
+let record;
 
 const playerPosition = {
     x: undefined,
@@ -66,6 +68,7 @@ function startGame() {
     context.fillRect(0,0,canvasSize,canvasSize);
 
     showLives()
+    spanRecord.innerText = localStorage.getItem('record');
     
     mapRowsCols.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
@@ -141,6 +144,15 @@ function levelFail() {
 function finishGame() {
     console.log('terminaste el juego, tremendo ganador sos!!');
     clearInterval(timeInterval);
+    if(!record) {
+        record = timePlayer;
+        localStorage.setItem('record', record);
+    };
+    if(timePlayer < record) {
+        record = timePlayer;
+        localStorage.setItem('record', record);
+    };
+    spanRecord.innerText = localStorage.getItem('record');
 };
 
 function showLives() {
@@ -149,7 +161,8 @@ function showLives() {
 };
 
 function showTime() {
-    spanTimes.innerText = (Date.now() - timeStart) / 1000 + ' seg';
+    timePlayer = (Date.now() - timeStart) / 1000 + ' seg';
+    spanTimes.innerText = timePlayer;
 };
 
 btnUp.addEventListener('click', moveUp);
