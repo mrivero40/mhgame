@@ -7,6 +7,7 @@ const btnRight = document.getElementById('right');
 const spanLives = document.getElementById('lives');
 const spanTimes = document.getElementById('time');
 const spanRecord = document.getElementById('record');
+const pResult = document.getElementById(`result`);
 
 let canvasSize;
 let elemSize;
@@ -67,8 +68,8 @@ function startGame() {
 
     context.fillRect(0,0,canvasSize,canvasSize);
 
-    showLives()
-    spanRecord.innerText = localStorage.getItem('record');
+    showLives();
+    showRecord();
     
     mapRowsCols.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
@@ -147,12 +148,16 @@ function finishGame() {
     if(!record) {
         record = timePlayer;
         localStorage.setItem('record', record);
+        showResult('Primera vez? Sigue superando tu record');
     };
     if(timePlayer < record) {
         record = timePlayer;
         localStorage.setItem('record', record);
+        showResult('conseguiste un nuevo record de ' + timePlayer);
+    } else {
+        showResult('NO superaste el record anterior, vuelve a intentar');
     };
-    spanRecord.innerText = localStorage.getItem('record');
+    showRecord();
 };
 
 function showLives() {
@@ -164,6 +169,15 @@ function showTime() {
     timePlayer = (Date.now() - timeStart) / 1000;
     spanTimes.innerText = timePlayer;
 };
+
+function showRecord() {
+    spanRecord.innerText = localStorage.getItem('record');
+};
+
+function showResult(result) {
+    pResult.innerText = result;
+};
+
 
 btnUp.addEventListener('click', moveUp);
 btnDown.addEventListener('click', moveDown);
