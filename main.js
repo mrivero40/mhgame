@@ -16,7 +16,7 @@ let lives = 3;
 let timeStart;
 let timePlayer;
 let timeInterval;
-let record;
+let record = localStorage.getItem('record');
 
 const playerPosition = {
     x: undefined,
@@ -161,7 +161,7 @@ function showLives() {
 };
 
 function showTime() {
-    timePlayer = (Date.now() - timeStart) / 1000 + ' seg';
+    timePlayer = (Date.now() - timeStart) / 1000;
     spanTimes.innerText = timePlayer;
 };
 
