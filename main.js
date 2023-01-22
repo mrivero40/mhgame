@@ -26,6 +26,13 @@ const playerPosition = {
     y: undefined,
 };
 
+const playerPositionOld = {
+    x: undefined,
+    y: undefined,
+    canvasOld: undefined,
+    elemOld: undefined,
+};
+
 const finishPosition = {
     x: undefined,
     y: undefined,
@@ -36,7 +43,12 @@ let enemyPosition = [];
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
-function setCanvasSize() {    
+function setCanvasSize() {
+    if(!playerPositionOld.canvasOld) {
+        playerPositionOld.elemOld = elemSize;
+        playerPositionOld.x = playerPosition.x;
+        playerPositionOld.y = playerPosition.y;
+    };
     if(window.innerHeight > window.innerWidth) {
         canvasSize = window.innerWidth * .7;
     } else {
@@ -47,8 +59,12 @@ function setCanvasSize() {
     canvasSize = Number(canvasSize.toFixed(0));
 
     elemSize = Number((canvasSize / 10).toFixed(5) -1);
-    playerPosition.x = undefined;
-    playerPosition.y = undefined;
+
+    const ghostPosition = (playerPositionOld.elemOld / elemSize);
+
+    playerPosition.x = playerPositionOld.x / ghostPosition;
+    playerPosition.y = playerPositionOld.y / ghostPosition;
+    
     startGame();
 };
 
@@ -71,7 +87,7 @@ function startGame() {
     const mapRows = map.trim().split('\n');
     const mapRowsCols = mapRows.map(row => row.trim().split(''));
 
-    context.fillRect(0,0,canvasSize,canvasSize);
+    context.fillRect(0, 0, canvasSize, canvasSize);
 
     showLives();
     showRecord();
@@ -146,7 +162,7 @@ function levelFail() {
         timeStart = undefined;        
         context.clearRect(0, 0, canvasSize, canvasSize);
         context.textAlign = 'center';
-        context.fillText('Game Over', canvasSize - (canvasSize / 2), canvasSize - (canvasSize / 2));
+        context.fillText('Game Over', canvasSize / 2, canvasSize / 2);
         return;                
     };
     
@@ -158,7 +174,6 @@ function levelFail() {
 };
 
 function finishGame() {
-    console.log('terminaste el juego, tremendo ganador sos!!');
     clearInterval(timeInterval);
     if(!record) {
         record = timePlayer;
@@ -174,6 +189,10 @@ function finishGame() {
         showResult('NO superaste el record, vuelve a intentarlo');
     };
     showRecord();
+    context.clearRect(0, 0, canvasSize, canvasSize);
+    context.textAlign = 'center';
+    context.fillText('Juego Terminado', canvasSize / 2, canvasSize / 2);
+    context.fillText(emojis['WIN'], canvasSize / 2, (canvasSize / 2) + elemSize);
 };
 
 function showLives() {
