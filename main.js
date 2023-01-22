@@ -117,10 +117,15 @@ function renderPlayer() {
         const enemyCollitionMatch = enemyCollitionX && enemyCollitionY;
         return enemyCollitionMatch
     });
-    if(enemyCollition) {        
-        levelFail();
-    }
+
     context.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+
+    if(enemyCollition) {
+        context.clearRect(0, 0, canvasSize, canvasSize);
+        context.fillText(emojis['BOMB_COLLISION'], playerPosition.x, playerPosition.y);
+        context.fillText('☠', playerPosition.x + 2, playerPosition.y - elemSize);
+        setTimeout( () => levelFail(), 800);
+    };
 };
 
 function levelWins() {
@@ -138,8 +143,13 @@ function levelFail() {
         lives = 3;
         level = 0;
         clearInterval(timeInterval);
-        timeStart = undefined;
+        timeStart = undefined;        
+        context.clearRect(0, 0, canvasSize, canvasSize);
+        context.textAlign = 'center';
+        context.fillText('Game Over', canvasSize - (canvasSize / 2), canvasSize - (canvasSize / 2));
+        return;                
     };
+    
     playerPosition.x = undefined;
     playerPosition.y = undefined;
     enemyPosition = [];
@@ -180,7 +190,7 @@ function showRecord() {
     if(!record) {
         spanRecord.innerText = ' sin record ';
     } else {
-        spanRecord.innerText = localStorage.getItem('record');
+        spanRecord.innerText = ` ${localStorage.getItem('record')} `;
     };
 };
 
