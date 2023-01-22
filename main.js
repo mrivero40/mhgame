@@ -7,7 +7,9 @@ const btnRight = document.getElementById('right');
 const spanLives = document.getElementById('lives');
 const spanTimes = document.getElementById('time');
 const spanRecord = document.getElementById('record');
-const pResult = document.getElementById(`result`);
+const pResult = document.getElementById('result');
+const reloadGame = document.getElementById('reloadGame');
+const removeRecord = document.getElementById('removeRecord');
 
 let canvasSize;
 let elemSize;
@@ -36,20 +38,23 @@ window.addEventListener('resize', setCanvasSize);
 
 function setCanvasSize() {    
     if(window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * .75;
+        canvasSize = window.innerWidth * .7;
     } else {
-        canvasSize = window.innerHeight * .75;
+        canvasSize = window.innerHeight * .7;
     };
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
+    canvasSize = Number(canvasSize.toFixed(0));
 
-    elemSize = (canvasSize / 10) -1;
+    elemSize = Number((canvasSize / 10).toFixed(5) -1);
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
     startGame();
 };
 
 function startGame() {
     context.font = elemSize + 'px Ubuntu';
-    context.textAlign = 'start';
+    context.textAlign = 'start';    
 
     let map = maps[level];
 
@@ -95,7 +100,7 @@ function startGame() {
         });
     });
     flag = false;
-    renderPlayer();   
+    renderPlayer();    
 };
 
 function renderPlayer() {
@@ -148,14 +153,15 @@ function finishGame() {
     if(!record) {
         record = timePlayer;
         localStorage.setItem('record', record);
-        showResult('Primera vez? Sigue superando tu record');
+        showResult('Primera vez? Sigue superando tu record, BIENVENIDO!!');
     };
     if(timePlayer < record) {
         record = timePlayer;
         localStorage.setItem('record', record);
-        showResult('conseguiste un nuevo record de ' + timePlayer);
-    } else {
-        showResult('NO superaste el record anterior, vuelve a intentar');
+        showResult('conseguiste un nuevo record de ' + timePlayer + ' seg. FELICITACIONES!!');
+    };
+    if (timePlayer > record) {
+        showResult('NO superaste el record, vuelve a intentarlo');
     };
     showRecord();
 };
@@ -171,11 +177,20 @@ function showTime() {
 };
 
 function showRecord() {
-    spanRecord.innerText = localStorage.getItem('record');
+    if(!record) {
+        spanRecord.innerText = ' sin record ';
+    } else {
+        spanRecord.innerText = localStorage.getItem('record');
+    };
 };
 
 function showResult(result) {
     pResult.innerText = result;
+};
+
+function resetRecord() {
+    localStorage.removeItem('record');
+    spanRecord.innerText = ' record borrado ';    
 };
 
 
@@ -184,8 +199,10 @@ btnDown.addEventListener('click', moveDown);
 btnLeft.addEventListener('click', moveLeft);
 btnRight.addEventListener('click', moveRight);
 window.addEventListener('keydown', moveKeys);
+reloadGame.addEventListener('click', () => location.reload());
+removeRecord.addEventListener('click', resetRecord);
 
-function moveUp(){
+function moveUp() {
     if(playerPosition.y < Math.ceil(elemSize)) {
         console.log('fuera de limite');        
     } else {

@@ -9,22 +9,21 @@
 </head>
 <body>
     <div class="game-container">
-        <canvas id="game-canvas" class="canvas"></canvas>
+      <canvas id="game-canvas" class="canvas"></canvas>
         
-        <div class="btns-container">
-          <button id="up">Arriba</button>
-          <button id="left">Izquierda</button>
-          <button id="right">Derecha</button>
-          <button id="down">Abajo</button>
-        </div>
-    
-        <div class="info-container">
-          <p id="result"></p>
-          <p>Vidas: <span id="lives"></span></p>
-          <p>Tiempo: ⏰<span id="time"></span></p>
-          <p>Record: 🏁<span id="record"></span></p>
-        </div>
+      <div class="btns-container">
+        <button id="up">Arriba</button>
+        <button id="left">Izquierda</button>
+        <button id="right">Derecha</button>
+        <button id="down">Abajo</button>
       </div>
+    
+      <div class="info-container">
+        <p id="result">Usa las flechas del teclado los botones!!</p>
+        <p>Vidas: <span id="lives"></span> | Tiempo: ⏰<span id="time"></span></p>
+        <p>Record: 🏁<span id="record">sin record</span> <button id="removeRecord">Borrar</button> <button id="reloadGame">Nuevo</button></p>          
+      </div>
+    </div>
 
     <script src="./maps.js"></script>
     <script src="./main.js"></script>
